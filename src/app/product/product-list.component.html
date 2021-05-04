@@ -1,0 +1,51 @@
+<div class="card">
+    <div class="card-header">
+        {{listTitle}}
+    </div>
+    <div class="card-body">
+
+        <!-- Filter Input -->
+        <div class='row mb-3'>
+            <div class='col-md-4'>Filter by Product Name/Code:</div>
+            <div class='col-md-4'>
+                <input type='text' [(ngModel)]='listFilter' />
+            </div>
+        </div>
+
+        <!-- Product Table -->
+        <div class='table-responsive'>
+            <table class="table" *ngIf='productList.length'>
+                <thead>
+                    <tr>
+                        <th scope="col"><button class="btn btn-primary" (click)='toggleImage()'>{{showImage ?
+                                'Hide':'Show'}} Image</button></th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Available</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">5 Star Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let product of filteredList'>
+                        <td>
+                            <img *ngIf='showImage' [src]='product.imageUrl' [alt]='product.productName'
+                                [title]='product.productName' [style.width.px]='imageWidth'
+                                [style.margin.px]='imageMargin'>
+                        </td>
+                        <td><a [routerLink]="['/product-details',product.productId]">{{product.productName}}</a></td>
+                        <td>{{product.productCode | lowercase | convertToSpaces:'-'}}</td>
+                        <td>{{product.releaseDate}}</td>
+                        <td>{{product.price | currency:'USD':'symbol':'1.2-2'}}</td>
+                        <!-- <td>{{product.starRating}}</td> -->
+                        <td>
+                            <star-root [rating]='product.starRating' (notifyRatingClicked)='onRatingClicked($event)'>
+
+                            </star-root></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
